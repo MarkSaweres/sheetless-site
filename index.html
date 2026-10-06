@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sheetless</title>
+<meta name="description" content="Sheetless builds Power Apps and Power Automate flows on the Microsoft 365 you already pay for. For nonprofits, legal aid organizations and small teams in the Bay Area.">
+<meta property="og:title" content="Sheetless">
+<meta property="og:description" content="Your team's spreadsheet, turned into an app people actually use. Power Apps and Microsoft 365 automation for Bay Area organizations.">
+<meta property="og:url" content="https://getsheetless.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='12' height='12' rx='2' fill='%23D9E3DF'/%3E%3Crect x='14' width='12' height='12' rx='2' fill='%23D9E3DF'/%3E%3Crect y='14' width='12' height='12' rx='2' fill='%23D9E3DF'/%3E%3Crect x='14' y='14' width='12' height='12' rx='5' fill='%230D7A5E'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a spreadsheet grid that gives way to clean app surfaces; gridlines are the recurring motif. */
+:root{
+  --bg:#F5F8F7; --surface:#FFFFFF; --fg:#14211D; --muted:#5A6A65; --grid:#D9E3DF;
+  --accent:#0D7A5E; --accent-ink:#FFFFFF; --select:#F3C84B; --select-soft:#FBF0C9;
+  --display:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body:"Public Sans", "Segoe UI", Roboto, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1614; --surface:#16201D; --fg:#E6EEEB; --muted:#9AABA5; --grid:#26332F;
+  --accent:#3CC79E; --accent-ink:#06130F; --select:#E8BE45; --select-soft:#3A3318; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1614; --surface:#16201D; --fg:#E6EEEB; --muted:#9AABA5; --grid:#26332F;
+  --accent:#3CC79E; --accent-ink:#06130F; --select:#E8BE45; --select-soft:#3A3318; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--select);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.6rem,3.2vw,2.2rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0}
+.label{font:500 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* Header */
+header{border-bottom:1px solid var(--grid)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font:800 1.25rem var(--display);color:var(--fg);text-decoration:none}
+.logo-mark{width:26px;height:26px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px}
+.logo-mark span{background:var(--grid);border-radius:2px}
+.logo-mark span:last-child{background:var(--accent);border-radius:6px 2px 6px 2px}
+nav{display:flex;gap:22px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem}
+nav a:hover{color:var(--fg)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding-block:64px 56px}
+.hero > *{min-width:0}
+.hero h1{font-size:clamp(2.3rem,5.4vw,3.9rem);font-weight:800;letter-spacing:-.025em}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--select-soft) 62%)}
+.hero .lede{margin-top:20px;font-size:1.15rem;color:var(--muted);max-width:34em}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;align-items:center}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:600;padding:12px 20px;border-radius:8px;text-decoration:none}
+.btn:hover{filter:brightness(1.08)}
+.ghost{color:var(--fg);font-weight:600;text-decoration:none;border-bottom:2px solid var(--grid)}
+.ghost:hover{border-color:var(--accent)}
+
+/* Before/after visual */
+.demo{display:grid;gap:14px}
+.sheet{background:var(--surface);border:1px solid var(--grid);border-radius:10px;overflow:hidden;font:400 .78rem/1 var(--mono)}
+.sheet-bar{display:flex;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--grid);color:var(--muted)}
+.sheet-bar b{color:var(--fg);font-weight:500}
+.table-scroll{overflow-x:auto}
+.sheet table{border-collapse:collapse;width:100%;min-width:380px}
+.sheet th,.sheet td{border:1px solid var(--grid);padding:7px 8px;text-align:left;white-space:nowrap}
+.sheet th{color:var(--muted);font-weight:500;background:var(--bg)}
+.sheet td.sel{outline:2px solid var(--select);outline-offset:-2px;background:var(--select-soft)}
+.sheet td.n{color:var(--muted)}
+.arrow{font:500 .78rem var(--mono);color:var(--muted);display:flex;align-items:center;gap:10px}
+.arrow::before,.arrow::after{content:"";flex:1;height:1px;background:var(--grid)}
+.app{background:var(--surface);border:1px solid var(--grid);border-radius:14px;padding:18px;display:grid;gap:12px;box-shadow:0 10px 30px -18px rgba(13,60,48,.35)}
+.app-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{font:500 .72rem var(--mono);padding:4px 9px;border-radius:999px;background:var(--select-soft);color:var(--fg)}
+.pill.ok{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.req{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid var(--grid);border-radius:8px;align-items:center}
+.req small{display:block;color:var(--muted);font-size:.8rem}
+.req > div{min-width:0}
+
+section{padding-block:64px;border-top:1px solid var(--grid)}
+.section-head{display:grid;gap:10px;margin-bottom:32px;max-width:40em}
+.section-head p{color:var(--muted)}
+
+/* Offers */
+.offers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.offer{display:flex;flex-direction:column;gap:12px;padding:24px;border:1px solid var(--grid);border-radius:12px;background:var(--surface);min-width:0}
+.offer.main{border-color:var(--accent);border-width:2px}
+.price{font:700 1.6rem var(--display);font-variant-numeric:tabular-nums}
+.price small{font:500 .8rem var(--body);color:var(--muted)}
+.offer ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:4px}
+.offer .label{color:var(--accent)}
+
+/* Work */
+.work{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--grid);border-left:1px solid var(--grid)}
+.case{padding:24px;border-right:1px solid var(--grid);border-bottom:1px solid var(--grid);display:grid;gap:10px;align-content:start;min-width:0}
+.case .ref{font:500 .75rem var(--mono);color:var(--muted)}
+.case p{color:var(--muted)}
+.stack{display:flex;flex-wrap:wrap;gap:6px}
+.stack span{font:400 .72rem var(--mono);padding:3px 8px;border:1px solid var(--grid);border-radius:4px;color:var(--muted)}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.step{display:grid;gap:8px;min-width:0}
+.step::before{counter-increment:s;content:"Step " counter(s);font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.step p{color:var(--muted)}
+
+/* About + contact */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.about > *{min-width:0}
+.about p+p{margin-top:14px}
+.contact{background:var(--surface);border:1px solid var(--grid);border-radius:12px;padding:28px;display:grid;gap:14px}
+.copy{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.copy code{font:500 1rem var(--mono);padding:8px 12px;border:1px solid var(--grid);border-radius:6px;user-select:all;background:var(--bg);overflow-wrap:anywhere}
+.copy button{font:600 .9rem var(--body);padding:9px 14px;border-radius:6px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+footer{border-top:1px solid var(--grid);padding-block:28px;color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .hero,.about{grid-template-columns:1fr;gap:36px}
+  .offers,.steps{grid-template-columns:1fr}
+  .work{grid-template-columns:1fr}
+  .hero{padding-block:40px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .sheet td.sel{animation:blink 2.4s ease-in-out infinite}
+  @keyframes blink{50%{outline-color:transparent}}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>Sheetless</a>
+    <nav aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <p class="label">Power Apps · Power Automate · Microsoft 365</p>
+      <h1 style="margin-top:14px">Your team's spreadsheet, turned into <em>an app people actually use.</em></h1>
+      <p class="lede">Sheetless builds simple apps and approval flows on the Microsoft 365 you already pay for. No new software to buy, no developer on staff required. Built for nonprofits, legal aid organizations and small teams in the Bay Area.</p>
+      <div class="cta-row">
+        <a class="btn" href="#contact">Book a free 20-minute look</a>
+        <a class="ghost" href="#work">See past work</a>
+      </div>
+    </div>
+
+    <div class="demo" aria-label="Example: a facilities spreadsheet becomes a request app">
+      <div class="sheet">
+        <div class="sheet-bar"><b>Facility_Requests_FINAL_v3.xlsx</b><span>Sheet1</span></div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+            <tbody>
+              <tr><td class="n">1</td><td>Site</td><td>Issue</td><td>Who</td><td>Status</td></tr>
+              <tr><td class="n">2</td><td>Main St</td><td>HVAC noise</td><td>Dana?</td><td>see email</td></tr>
+              <tr><td class="n">3</td><td>Annex</td><td>Door badge</td><td></td><td class="sel">???</td></tr>
+              <tr><td class="n">4</td><td>Main St</td><td>Leak, rm 204</td><td>J.</td><td>done??</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="arrow">becomes</div>
+      <div class="app">
+        <div class="app-top"><h3>Facility requests</h3><span class="pill">3 open</span></div>
+        <div class="req"><div><b>Door badge reader</b><small>Annex · assigned to Facilities</small></div><span class="pill">Waiting approval</span></div>
+        <div class="req"><div><b>Leak, room 204</b><small>Main St · closed Oct 2</small></div><span class="pill ok">Done</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Services</p>
+        <h2>Fixed prices, agreed before any work starts</h2>
+        <p>Every project ends with a handover, so your team can run and change the app without me.</p>
+      </div>
+      <div class="offers">
+        <div class="offer">
+          <p class="label">Start here</p>
+          <h3>Process review + prototype</h3>
+          <p class="price">$400 <small>fixed</small></p>
+          <ul><li>We walk through the spreadsheet or inbox process</li><li>I map it to Microsoft 365</li><li>You get a clickable prototype and a quote</li></ul>
+        </div>
+        <div class="offer main">
+          <p class="label">Most requested</p>
+          <h3>Starter app</h3>
+          <p class="price">from $2,500 <small>fixed</small></p>
+          <ul><li>One Power App, up to about 5 screens</li><li>SharePoint or Dataverse behind it</li><li>1–2 Power Automate flows for approvals and alerts</li><li>Training and documentation</li></ul>
+        </div>
+        <div class="offer">
+          <p class="label">Quick fix</p>
+          <h3>Flow build or repair</h3>
+          <p class="price">from $250 <small>fixed</small></p>
+          <ul><li>One Power Automate flow built or fixed</li><li>Approvals, reminders, document routing</li><li>Usually done within a week</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Recent work</p>
+        <h2>Built for organizations like yours</h2>
+        <p>Client names withheld. Happy to walk through any of these on a call.</p>
+      </div>
+      <div class="work">
+        <article class="case">
+          <span class="ref">Nonprofit · 600+ staff</span>
+          <h3>Facilities management app</h3>
+          <p>Replaced spreadsheet and email tracking with one place to submit, route and close facility requests. A nightly sync keeps the staff roster current from HR data.</p>
+          <div class="stack"><span>Power Apps</span><span>Power Automate</span><span>SharePoint</span><span>Microsoft Graph</span></div>
+        </article>
+        <article class="case">
+          <span class="ref">Apprenticeship program · 150+ apprentices</span>
+          <h3>Apprentice case management</h3>
+          <p>One app for program staff to track each apprentice's progress, records and next steps, with views by role.</p>
+          <div class="stack"><span>Power Apps</span><span>SharePoint</span></div>
+        </article>
+        <article class="case">
+          <span class="ref">Law firm</span>
+          <h3>Conflicts-check portal</h3>
+          <p>Moved conflict checks for new matters out of email into a searchable portal with a clear review history.</p>
+          <div class="stack"><span>Power Apps</span><span>Dataverse</span></div>
+        </article>
+        <article class="case">
+          <span class="ref">Organization · 3,000+ employees</span>
+          <h3>HR to access automation</h3>
+          <p>New hires, role changes and departures now update access groups automatically, replacing a manual ticket queue.</p>
+          <div class="stack"><span>PowerShell</span><span>Microsoft Graph</span><span>Entra ID</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">How it works</p>
+        <h2>From spreadsheet to working app in a few weeks</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Show me the mess</h3><p>A free 20-minute call. Share the spreadsheet, form or email chain your team relies on today.</p></div>
+        <div class="step"><h3>Get a fixed quote</h3><p>I send back what I'd build, what it costs and when it's ready. No hourly surprises.</p></div>
+        <div class="step"><h3>Use it, own it</h3><p>Your team tests it, I adjust it, and you get documentation so you can maintain it yourselves.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <p class="label">About</p>
+        <h2 style="margin-top:10px">Hi, I'm Mark</h2>
+        <p style="margin-top:18px">I'm a systems administrator and software engineer based in the East Bay. I've spent the last few years running Microsoft 365, Entra ID and Intune for client organizations, and building the apps and automations that take busywork off their staff.</p>
+        <p>I started Sheetless because most small organizations already pay for powerful tools in Microsoft 365 and only use a fraction of them. I hold a B.S. in Software Engineering from San José State University.</p>
+        <p><a href="https://marksaweres.github.io/" rel="noopener">Full portfolio and resume</a></p>
+      </div>
+      <div class="contact" id="contact">
+        <p class="label">Contact</p>
+        <h3>Tell me about the process you want gone</h3>
+        <p style="color:var(--muted)">Email a short description, even "we track it in Excel and email it around". I reply within one business day.</p>
+        <div class="copy">
+          <code id="email">mark@getsheetless.com</code>
+          <button type="button" id="copyBtn">Copy</button>
+        </div>
+        <p id="copyMsg" class="label" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Sheetless · Bay Area, California</span><span>Power Apps · Power Automate · Microsoft 365</span></div>
+</footer>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', function(){
+  var t = document.getElementById('email').textContent, msg = document.getElementById('copyMsg');
+  function sel(){ var r=document.createRange(); r.selectNodeContents(document.getElementById('email')); var s=getSelection(); s.removeAllRanges(); s.addRange(r); msg.textContent='Selected, press Ctrl+C to copy'; }
+  try { navigator.clipboard.writeText(t).then(function(){ msg.textContent='Copied'; }, sel); } catch(e){ sel(); }
+});
+</script>
+</body>
+</html>
