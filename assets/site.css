@@ -92,7 +92,7 @@ section{padding-block:64px;border-top:1px solid var(--grid)}
 
 /* Steps */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
-.step{display:grid;gap:8px;min-width:0}
+.step{display:grid;gap:8px;min-width:0;align-content:start}
 .step::before{counter-increment:s;content:"Step " counter(s);font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 .step p{color:var(--muted)}
 
