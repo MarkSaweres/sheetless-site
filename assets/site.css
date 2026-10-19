@@ -29,9 +29,7 @@ p{margin:0}
 header{border-bottom:1px solid var(--grid)}
 header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:10px;font:800 1.25rem var(--display);color:var(--fg);text-decoration:none}
-.logo-mark{width:26px;height:26px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px}
-.logo-mark span{background:var(--grid);border-radius:2px}
-.logo-mark span:last-child{background:var(--accent);border-radius:6px 2px 6px 2px}
+.logo-mark{width:26px;height:26px;display:block}
 nav{display:flex;gap:22px;flex-wrap:wrap}
 nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem}
 nav a:hover{color:var(--fg)}
@@ -85,7 +83,8 @@ section{padding-block:64px;border-top:1px solid var(--grid)}
 .support > *{min-width:0}
 .support-copy{display:grid;gap:12px;align-content:start}
 .support-copy .label{color:var(--accent)}
-.support-copy p:last-child{color:var(--muted)}
+.support-copy p:last-of-type{color:var(--muted)}
+.support-covers{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:4px}
 .support-plan{display:grid;gap:10px;align-content:start;padding-left:32px;border-left:1px solid var(--grid)}
 .support-plan ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:4px}
 .support-note{font-size:.9rem;color:var(--muted)}
